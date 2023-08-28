@@ -71,6 +71,26 @@ export const AppReducer = (state, action) => {
                 ...state
             }
 
+            case 'INCREASE_BUDGET':
+                return {
+                    ...state,
+                    budget: Math.min(state.budget + 10, 20000) // Ensure the budget doesn't exceed £20000
+                };
+
+            case 'DECREASE_BUDGET':
+                const totalExpenses = state.expenses.reduce((total, item) => total + item.cost, 0);
+                const newBudget = state.budget - 10;
+                if(newBudget >= totalExpenses) {
+                    return {
+                        ...state,
+                        budget: newBudget
+                    };
+                } else {
+                    alert("Budget cannot be less than the total allocated expenses!");
+                    return state;
+                }
+
+
         default:
             return state;
     }

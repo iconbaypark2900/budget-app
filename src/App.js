@@ -23,6 +23,19 @@ const App = () => {
                     <div className='col-sm'>
                         <ExpenseTotal />
                     </div>
+                    <div className="mb-3">
+                        <label htmlFor="currencySelector" className="form-label">Currency</label>
+                        <select
+                            id="currencySelector"
+                            className="form-control"
+                            onChange={(e) => dispatch({ type: 'CHG_CURRENCY', payload: e.target.value })}
+                        >
+                            <option value="£">£ Pound</option>
+                            <option value="$">$ Dollar</option>
+                            <option value="€">€ Euro</option>
+                            <option value="₹">₹ Ruppee</option>
+                        </select>
+                    </div>
                 </div>
                 <h3 className='mt-3'>Allocation</h3>
                 <div className='row '>

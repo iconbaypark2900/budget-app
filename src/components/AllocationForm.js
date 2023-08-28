@@ -14,7 +14,7 @@ const AllocationForm = (props) => {
                 alert("The value cannot exceed remaining funds  £"+remaining);
                 setCost("");
                 return;
-            }
+         }
 
         const expense = {
             name: name,
@@ -64,6 +64,8 @@ const AllocationForm = (props) => {
                         type='number'
                         id='cost'
                         value={cost}
+                        min='0'
+                        max={remaining}
                         style={{ marginLeft: '2rem' , size: 10}}
                         onChange={(event) => setCost(event.target.value)}>
                         </input>
