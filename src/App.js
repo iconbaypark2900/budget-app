@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { AppProvider } from './context/AppContext';
@@ -7,51 +7,42 @@ import ExpenseTotal from './components/ExpenseTotal';
 import ExpenseList from './components/ExpenseList';
 import AllocationForm from './components/AllocationForm';
 import RemainingBudget from './components/Remaining';
+import Currency from './components/Currency';
 
-const App = () => {
-    return (
-        <AppProvider>
-            <div className='container'>
-                <h1 className='mt-3'>Company's Budget Allocation</h1>
-                <div className='row mt-3'>
-                    <div className='col-sm'>
-                        <Budget />
-                    </div>
-                    <div className='col-sm'>
-                        <RemainingBudget />
-                    </div>
-                    <div className='col-sm'>
-                        <ExpenseTotal />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="currencySelector" className="form-label">Currency</label>
-                        <select
-                            id="currencySelector"
-                            className="form-control"
-                            onChange={(e) => dispatch({ type: 'CHG_CURRENCY', payload: e.target.value })}
-                        >
-                            <option value="£">£ Pound</option>
-                            <option value="$">$ Dollar</option>
-                            <option value="€">€ Euro</option>
-                            <option value="₹">₹ Ruppee</option>
-                        </select>
-                    </div>
-                </div>
-                <h3 className='mt-3'>Allocation</h3>
-                <div className='row '>
-                    <div className='col-sm'>
-                        <ExpenseList />
-                    </div>
-                </div>
-                <h3 className='mt-3'>Change allocation</h3>
-                <div className='row mt-3'>
-                    <div className='col-sm'>
-                        <AllocationForm/>
-                    </div>
-                </div>
-            </div>
-        </AppProvider>
-    );
-};
+const HeaderSection = ({ title }) => (
+    <>
+        <h1 className='mt-3'>{title}</h1>
+    </>
+);
+
+const RowSection = ({ children }) => (
+    <div className='row mt-3'>
+        {children}
+    </div>
+);
+
+const App = () => (
+    <AppProvider>
+        <div className='container'>
+            <HeaderSection title="Company's Budget Allocation" />
+            <RowSection>
+                <div className='col-sm'><Budget /></div>
+                <div className='col-sm'><RemainingBudget /></div>
+                <div className='col-sm'><ExpenseTotal /></div>
+                <div className='col-sm'><Currency /></div>
+            </RowSection>
+            
+            <HeaderSection title="Allocation" />
+            <RowSection>
+                <div className='col-sm'><ExpenseList /></div>
+            </RowSection>
+
+            <HeaderSection title="Change allocation" />
+            <RowSection>
+                <div className='col-sm'><AllocationForm /></div>
+            </RowSection>
+        </div>
+    </AppProvider>
+);
 
 export default App;

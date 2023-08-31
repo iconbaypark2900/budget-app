@@ -1,28 +1,61 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Budget = () => {
-    const { budget, dispatch, currency } = useContext(AppContext);
+    const [inputBudget, setInputBudget] = useState('');
+    const { budget, dispatch, remaining, currency } = useContext(AppContext);
 
-    const increaseBudget = () => {
-        dispatch({
-            type: 'INCREASE_BUDGET'
-        });
+    const inputStyle = {
+        size: 10
     };
 
-    const decreaseBudget = () => {
-        dispatch({
-            type: 'DECREASE_BUDGET'
-        });
+    useEffect(() => {
+        console.log(currency);
+    }, [currency]);
+
+    const handleInputChange = (event) => {
+        const value = event.target.value;
+
+        if (value >= 20000) {
+            alert("The budget value cannot exceed more than 20,000!");
+            setInputBudget("");
+            return;
+        }
+
+        const spending = value - remaining;
+
+        if (value <= spending) {
+            alert("CANNOT BE LOWER THAN SPENDING!");
+            return;
+        }
+
+        setInputBudget(value);
+
+        const action_setBudget = {
+            type: 'SET_BUDGET',
+            payload: parseInt(value),
+        };
+
+        dispatch(action_setBudget);
     };
 
     return (
         <div className='alert alert-secondary'>
-            <span>Budget: £{budget}</span>
-            <button onClick={increaseBudget} className="btn btn-success ml-4">+ £10</button>
-            <button onClick={decreaseBudget} className="btn btn-danger ml-2">- £10</button>
+            <span>
+                Budget: {currency}
+                <input
+                    required='required'
+                    type='number'
+                    id='budget'
+                    value={budget}
+                    style={inputStyle}
+                    step="10"
+                    onChange={handleInputChange}
+                />
+            </span>
         </div>
     );
 };
 
 export default Budget;
+
